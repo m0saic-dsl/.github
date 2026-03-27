@@ -1,97 +1,91 @@
+<p align="left">
+  <a href="https://m0saic.io" target="_blank" rel="noopener noreferrer">
+    <img src="m0.png" alt="m0saic" width="180" />
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/logo/wordmark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="assets/logo/wordmark-dark.svg">
+      <img src="assets/logo/wordmark-dark.svg" alt="m0saic" width="380"/>
+    </picture>
+  </a>
+</p>
+
 # m0 (m0saic DSL)
 
 **m0** is a deterministic, integer-only rectangle layout algebra and canonical string encoding maintained by **m0saic LLC**.
 
-It defines a minimal grammar for transforming a single rectangle into a structured, deterministic set of child rectangles with stable identity and deterministic geometry.
+It defines a minimal grammar for transforming a single rectangle into a structured, deterministic set of child rectangles with stable identity and exact geometry.
 
 m0 is designed to be:
 
 - Deterministic  
-- Human-authorable  
 - Integer-precise  
-- O(N) in layout computation  
+- Human-authorable  
+- O(N) in evaluation  
 - Portable across runtimes  
-- Backwards compatible once released  
+- Semantically stable  
 
 ---
 
-## What m0 Does
+## Definition
 
 Given:
 
 - A root rectangle `(width, height)`  
 - A valid m0 string  
 
-The m0 runtime evaluates the string into:
+Evaluation produces:
 
 - A deterministic set of rectangles  
 - Stable ordering  
-- Stable identity keys  
+- Stable identity  
 - Exact integer geometry  
-- No floating-point layout  
-- No runtime-dependent differences  
+- No floating-point ambiguity  
+- No runtime-dependent variation  
 
-m0 produces **layout only**.  
+m0 produces **geometry only**.  
 It does not assign meaning to rectangles.
-
-m0 intentionally does **not** handle:
-
-- Content measurement  
-- Responsive layout rules  
-- Styling or rendering  
-- Dynamic layout based on runtime content  
-
-It is a layout algebra, not a UI framework.
 
 ---
 
-## From Layout Algebra to Renderable Systems
+## Scope
 
-m0 defines geometry.
+m0 intentionally does not define:
 
-Higher-level systems may assign semantic meaning to the evaluated rectangles.  
-For example, the **m0saic** ecosystem binds:
+- Content measurement  
+- Responsive layout behavior  
+- Styling or rendering  
+- Runtime-dependent layout  
+
+It is a layout algebra, not a UI system.
+
+---
+
+## Composition Model
+
+m0 defines deterministic geometry as a pure function of:
+
+```
+(root rectangle, m0 string) → rectangles
+```
+
+Higher-level systems may bind meaning onto the resulting rectangles.
+
+In the **m0saic** system, rectangles may be associated with:
 
 - Media sources  
 - Text primitives  
-- Audio  
 - Nested compositions  
 - Rendering pipelines  
 
-onto the deterministic rectangle output of m0.
-
-This separation allows m0 to function as a portable layout core while enabling richer composition systems to be built on top.
-
-Learn more about the m0saic composition model:  
-https://m0saic.io/architecture
+This separation preserves m0 as a portable, implementation-independent layout core.
 
 ---
 
-## Repositories
+## Reference Implementations
 
-- **`dsl`** – Canonical TypeScript reference implementation  
-- **`dsl-conformance`** – Specification conformance suite  
-- **`dsl-wasm`** – Official WebAssembly runtime  
-
----
-
-## Conformance
-
-Behavioral correctness is defined by the **m0 Conformance Suite**.
-
-Any implementation that passes the conformance suite may claim compatibility with:
-
-**m0 Specification v1.x**
-
-Conformance verifies:
-
-- Grammar validation  
-- Canonicalization rules  
-- Split invariants  
-- Carry / claim semantics  
-- Overlay behavior  
-- Deterministic geometry output  
-- Error codes  
+- **`dsl`** – Core parser, validator, and canonical implementation  
+- **`dsl-stdlib`** – Standard construction utilities and generators  
+- **`dsl-visual-tests`** – Engine-backed visual verification suite  
 
 ---
 
@@ -99,13 +93,12 @@ Conformance verifies:
 
 m0 is the core layout algebra.
 
-**m0saic** is the primary composition and rendering ecosystem built on top of m0, including:
+**m0saic** is a system built on top of m0 that provides:
 
-- Deterministic visual composition  
-- Video and image rendering (FFmpeg backend)  
-- CLI tooling  
-- Desktop and web applications  
-- Template libraries  
+- Visual editing tools  
+- Template systems  
+- Composition workflows  
+- Rendering infrastructure  
 
 m0 may be used independently of m0saic.
 
@@ -115,9 +108,9 @@ m0 may be used independently of m0saic.
 
 The m0 grammar and semantics follow semantic versioning.
 
-- m0 v1.x is backwards compatible.  
-- Changes to grammar or semantics require a major version increment.  
-- Conformance defines correctness.  
+- v1.x is backwards compatible  
+- Breaking changes require a major version  
+- Conformance defines correctness  
 
 ---
 
@@ -125,5 +118,3 @@ The m0 grammar and semantics follow semantic versioning.
 
 m0 is maintained by **m0saic LLC**.
 
-Learn more:  
-https://m0saic.io/dsl
